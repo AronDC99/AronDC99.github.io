@@ -28,6 +28,7 @@ function draw(){
     drawBall();
     x += dx;
     y += dy;
+    borderCheck();
 }
 
 setInterval(draw, 10);
