@@ -3,15 +3,19 @@ var ctx = canvas.getContext("2d");
 
 var paddleHeight = 75;
 var paddleWidth = 10;
-var paddleY = (canvas.height-paddleHeight)/2;
 
 var p1 = {};
 p1.upPressed = false;
 p1.downPressed = false;
+p1.score = 0;
+p1.paddleY = (canvas.height-paddleHeight)/2;
 
 var p2 = {};
 p2.upPressed = false;
 p2.downPressed = false;
+p2.score = 0;
+p2.paddleY = (canvas.height-paddleHeight)/2;
+
 
 var x = canvas.width/2;
 var y = canvas.height-30;
@@ -31,6 +35,12 @@ function keyDownHandler(e){
     else if(e.keyCode == 40){
         p1.downPressed = true;
     }
+    else if(e.keyCode == 87){
+        p2.upPressed = true;
+    }
+    else if(e.keyCode == 83){
+        p2.downPressed = true;
+    }
 }
 
 function keyUpHandler(e){
@@ -40,16 +50,29 @@ function keyUpHandler(e){
     else if(e.keyCode == 40){
         p1.downPressed = false;
     }
+    else if(e.keyCode == 87){
+        p2.upPressed = false;
+    }
+    else if(e.keyCode == 83){
+        p2.downPressed = false;
+    }
 }
 
-function drawPaddle(){
+function drawPaddleP1(){
     ctx.beginPath();
-    ctx.rect(canvas.width-paddleWidth, paddleY, paddleWidth, paddleHeight);
+    ctx.rect(canvas.width-paddleWidth, p1.paddleY, paddleWidth, paddleHeight);
     ctx.fillStyle = "#0095DD";
     ctx.fill();
     ctx.closePath();
 }
 
+function drawPaddleP2(){
+    ctx.beginPath();
+    ctx.rect(0, p2.paddleY, paddleWidth, paddleHeight);
+    ctx.fillStyle = "#0095DD";
+    ctx.fill();
+    ctx.closePath();
+}
 function drawBall(){
     //teikna bolta
     ctx.beginPath()
@@ -59,16 +82,45 @@ function drawBall(){
     ctx.closePath();
 }
 
+function movePaddles(){
+    if(p1.downPressed && p1.paddleY < canvas.height-paddleHeight) {
+        p1.paddleY += 7;
+    }
+    else if(p1.upPressed && p1.paddleY > 0) {
+        p1.paddleY -= 7;
+    }
+    
+    if(p2.downPressed && p2.paddleY < canvas.height-paddleHeight) {
+        p2.paddleY += 7;
+    }
+    else if(p2.upPressed && p2.paddleY > 0) {
+        p2.paddleY -= 7;
+    }
+}
 function borderCheck(){
-    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {dx = -dx;}
+    if(x + dx > canvas.width-ballRadius) {
+        p1.score += 1;
+    }
+    else if(x + dx < ballRadius){
+        p2.score += 1;
+    }
     if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {dy = -dy;}
 }
+
+function drawScore(){
+    ctx.font("24px Comic Sans");
+    ctx.fillStyle("#006EA3");
+    ctx.fillText("Test", 100, 100);
+}
+
 function draw(){
     //hreinsa canvasinn
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawPaddle();
+    drawPaddleP1();
+    drawPaddleP2();
+    //drawScore();
     drawBall();
-    
+    movePaddles();
     x += dx;
     y += dy;
     borderCheck();
