@@ -98,11 +98,23 @@ function movePaddles(){
     }
 }
 function borderCheck(){
+    console.log("paddle pos", p2.paddleY);
+    console.log("ball pos", y);
     if(x + dx > canvas.width-ballRadius) {
-        p1.score += 1;
+        if(y > p2.paddleY && y < p2.paddleY + paddleHeight){
+            dx = -dx;
+        }else{
+            p1.score += 1;
+            //console.log("p1 score ", p1.score);
+        }
     }
     else if(x + dx < ballRadius){
-        p2.score += 1;
+        if(y < p1.paddleY && y > p1.paddleY + paddleHeight){
+            dy = -dy;
+        }else{
+            p2.score += 1;
+            console.log("p2 score ", p2.score);
+        }
     }
     if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {dy = -dy;}
 }
