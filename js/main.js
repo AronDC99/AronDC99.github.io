@@ -16,7 +16,7 @@ p2.downPressed = false;
 p2.score = 0;
 p2.paddleY = (canvas.height-paddleHeight)/2;
 
-
+var randPos = 0;
 var x = canvas.width/2;
 var y = canvas.height-30;
 
@@ -97,40 +97,36 @@ function movePaddles(){
         p2.paddleY -= 7;
     }
 }
+function resetBall(){
+    randPos = Math.floor(Math.random() * 500);
+    x = canvas.width/2;
+    y = canvas.height-randPos;
+}
 function borderCheck(){
-    console.log("paddle pos", p2.paddleY);
-    console.log("ball pos", y);
     if(x + dx > canvas.width-ballRadius) {
-        if(y > p2.paddleY && y < p2.paddleY + paddleHeight){
+        if(y >= p1.paddleY && y <= p1.paddleY+paddleHeight){
+            dx = -dx;
+        }else if(y >= p1.paddleY && y <= p1.paddleY+paddleHeight){
+            p2.score += 1;
+            resetBall();
+        }
+        /*if(y >= p2.paddleY && y <= p2.paddleY+paddleHeight){
             dx = -dx;
         }else{
             p1.score += 1;
-            //console.log("p1 score ", p1.score);
-        }
+            resetBall();
+        }*/
     }
     else if(x + dx < ballRadius){
-        if(y < p1.paddleY && y > p1.paddleY + paddleHeight){
-            dy = -dy;
-        }else{
-            p2.score += 1;
-            console.log("p2 score ", p2.score);
-        }
+        dx = -dx;
     }
     if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {dy = -dy;}
 }
-
-function drawScore(){
-    ctx.font("24px Comic Sans");
-    ctx.fillStyle("#006EA3");
-    ctx.fillText("Test", 100, 100);
-}
-
 function draw(){
     //hreinsa canvasinn
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawPaddleP1();
     drawPaddleP2();
-    //drawScore();
     drawBall();
     movePaddles();
     x += dx;
