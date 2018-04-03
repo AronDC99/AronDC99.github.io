@@ -21,6 +21,7 @@ var x = canvas.width/2;
 var y = canvas.height-30;
 
 var ballRadius = 10;
+var speedChanged = false;
 
 var dx = 2;
 var dy = -2;
@@ -106,32 +107,92 @@ function borderCheck(){
     if(x + dx > canvas.width-ballRadius) {
         if(y >= p1.paddleY && y <= p1.paddleY+paddleHeight){
             dx = -dx;
-        }else if(y >= p1.paddleY && y <= p1.paddleY+paddleHeight){
+        }else if(y < p1.paddleY || y > p1.paddleY+paddleHeight){
             p2.score += 1;
             resetBall();
         }
-        /*if(y >= p2.paddleY && y <= p2.paddleY+paddleHeight){
-            dx = -dx;
-        }else{
-            p1.score += 1;
-            resetBall();
-        }*/
     }
     else if(x + dx < ballRadius){
-        dx = -dx;
+        if(y >= p2.paddleY && y <= p2.paddleY+paddleHeight){
+            dx = -dx;
+        }else if(y < p2.paddleY || y > p2.paddleY+paddleHeight){
+            p1.score += 1;
+            resetBall();
+        }
     }
     if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {dy = -dy;}
 }
+function drawScore() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText(" P1 Score: "+p1.score, 8, 20);
+    ctx.fillText(" P2 Score: "+p2.score, 700, 20);
+}
+
+function checkWin(){
+    if(p1.score == 5 || p2.score == 5 && speedChanged == false){
+        dx *= 2;
+        dy *= 2;
+        speedChanged = true;
+    }
+    else if(p1.score >= 10){
+        alert("Player 1 Wins YAY!!!");
+        document.location.reload();
+    }
+    else if(p2.score >= 10){
+        alert("Player 2 Wins YAY!!!");
+        document.location.reload();
+    }
+}
+
+function drawButtons(){
+    //center button
+    ctx.beginPath();
+    ctx.rect((canvas.width/2)-75, (canvas.height/2)-25, 150, 50);
+    ctx.fillStyle = "#C9C9C9";
+    ctx.fill();
+    ctx.closePath();
+    //bottom button
+    ctx.beginPath();
+    ctx.rect((canvas.width/2)-75, (canvas.height/2)+75, 150, 50);
+    ctx.fillStyle = "#C9C9C9";
+    ctx.fill();
+    ctx.closePath();
+    //top button
+    ctx.beginPath();
+    ctx.rect((canvas.width/2)-75, (canvas.height/2)-125, 150, 50);
+    ctx.fillStyle = "#C9C9C9";
+    ctx.fill();
+    ctx.closePath();
+}
+
+function drawTextOnButtons(){
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Easy", (canvas.width/2)-15, (canvas.height/2)-95);
+    ctx.fillText("Medium", (canvas.width/2)-25, (canvas.height/2)+5);
+    ctx.fillText("Hard", (canvas.width/2)-15, (canvas.height/2)+105);
+}
+function drawMenuTitle(){
+    ctx.font = "60px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("CHOSE A GAME MODE", 65, 110);
+}
 function draw(){
     //hreinsa canvasinn
+    //checkWin();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawPaddleP1();
-    drawPaddleP2();
-    drawBall();
-    movePaddles();
-    x += dx;
-    y += dy;
-    borderCheck();
+    //drawPaddleP1();
+    //drawPaddleP2();
+    //drawScore();
+    //drawBall();
+    //movePaddles();
+    //x += dx;
+    //y += dy;
+    //borderCheck();
+    drawButtons();
+    drawTextOnButtons();
+    drawMenuTitle();
 }
 
 setInterval(draw, 10);
