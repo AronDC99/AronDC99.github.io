@@ -178,6 +178,15 @@ function drawMenuTitle(){
     ctx.fillStyle = "#0095DD";
     ctx.fillText("CHOSE A GAME MODE", 65, 110);
 }
+
+function checkForClicks(){
+    
+}
+function makeMenu(){
+    drawButtons();
+    drawTextOnButtons();
+    drawMenuTitle();
+}
 function draw(){
     //hreinsa canvasinn
     //checkWin();
@@ -190,9 +199,7 @@ function draw(){
     //x += dx;
     //y += dy;
     //borderCheck();
-    drawButtons();
-    drawTextOnButtons();
-    drawMenuTitle();
+    makeMenu();
 }
 
 setInterval(draw, 10);
