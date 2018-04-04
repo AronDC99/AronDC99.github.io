@@ -26,9 +26,41 @@ var speedChanged = false;
 var dx = 2;
 var dy = -2;
 
+var mouse = {};
+mouse.x;
+mouse.y;
+
+canvas.addEventListener("mousemove", getMousePos);
+
+
+
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
+function getMousePos(MouseEvent) {
+    mouse.x = mouseEvent.pageX - this.offsetLeft;
+    mouse.y = mouseEvent.pageY - this.offsetTop;
+}
+function detectLeftMouse(event){
+    var buttonsArray = [false, false, false, false, false, false, false, false, false];
+    var mousePressed = false;
+
+    document.onmousedown = function(e) {
+        buttonsArray[e.button] = true;
+        mousePressed = true;
+        checkForClicks();
+    };
+
+    document.onmouseup = function(e) {
+        buttonsArray[e.button] = false;
+        mousePressed = false;
+    };
+
+    document.oncontextmenu = function() {
+        return false;
+    }
+    return mousePressed;
+}
 function keyDownHandler(e){
     if(e.keyCode == 38){
         p1.upPressed = true;
@@ -43,7 +75,6 @@ function keyDownHandler(e){
         p2.downPressed = true;
     }
 }
-
 function keyUpHandler(e){
     if(e.keyCode == 38){
         p1.upPressed = false;
@@ -58,7 +89,6 @@ function keyUpHandler(e){
         p2.downPressed = false;
     }
 }
-
 function drawPaddleP1(){
     ctx.beginPath();
     ctx.rect(canvas.width-paddleWidth, p1.paddleY, paddleWidth, paddleHeight);
@@ -66,7 +96,6 @@ function drawPaddleP1(){
     ctx.fill();
     ctx.closePath();
 }
-
 function drawPaddleP2(){
     ctx.beginPath();
     ctx.rect(0, p2.paddleY, paddleWidth, paddleHeight);
@@ -82,7 +111,6 @@ function drawBall(){
     ctx.fill();
     ctx.closePath();
 }
-
 function movePaddles(){
     if(p1.downPressed && p1.paddleY < canvas.height-paddleHeight) {
         p1.paddleY += 7;
@@ -128,7 +156,6 @@ function drawScore() {
     ctx.fillText(" P1 Score: "+p1.score, 8, 20);
     ctx.fillText(" P2 Score: "+p2.score, 700, 20);
 }
-
 function checkWin(){
     if(p1.score == 5 || p2.score == 5 && speedChanged == false){
         dx *= 2;
@@ -144,7 +171,6 @@ function checkWin(){
         document.location.reload();
     }
 }
-
 function drawButtons(){
     //center button
     ctx.beginPath();
@@ -165,7 +191,6 @@ function drawButtons(){
     ctx.fill();
     ctx.closePath();
 }
-
 function drawTextOnButtons(){
     ctx.font = "16px Arial";
     ctx.fillStyle = "#0095DD";
@@ -177,10 +202,6 @@ function drawMenuTitle(){
     ctx.font = "60px Arial";
     ctx.fillStyle = "#0095DD";
     ctx.fillText("CHOSE A GAME MODE", 65, 110);
-}
-
-function checkForClicks(){
-    
 }
 function makeMenu(){
     drawButtons();
@@ -200,6 +221,8 @@ function draw(){
     //y += dy;
     //borderCheck();
     makeMenu();
+    checkForClicks();
+    detectLeftMouse();
 }
 
 setInterval(draw, 10);
