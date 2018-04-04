@@ -16,6 +16,11 @@ p2.downPressed = false;
 p2.score = 0;
 p2.paddleY = (canvas.height-paddleHeight)/2;
 
+var mouse = {};
+mouse.x;
+mouse.y;
+
+var ballCount = 1;
 var randPos = 0;
 var x = canvas.width/2;
 var y = canvas.height-30;
@@ -26,40 +31,63 @@ var speedChanged = false;
 var dx = 2;
 var dy = -2;
 
-var mouse = {};
-mouse.x;
-mouse.y;
+var speedX = 2;
+var speedY = -2;
 
-canvas.addEventListener("mousemove", getMousePos);
-
+var balls = [];
+var difficultySet = false;
 
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
-function getMousePos(MouseEvent) {
-    mouse.x = mouseEvent.pageX - this.offsetLeft;
-    mouse.y = mouseEvent.pageY - this.offsetTop;
-}
-function detectLeftMouse(event){
-    var buttonsArray = [false, false, false, false, false, false, false, false, false];
-    var mousePressed = false;
-
-    document.onmousedown = function(e) {
-        buttonsArray[e.button] = true;
-        mousePressed = true;
-        checkForClicks();
-    };
-
-    document.onmouseup = function(e) {
-        buttonsArray[e.button] = false;
-        mousePressed = false;
-    };
-
-    document.oncontextmenu = function() {
-        return false;
+function getMousePos(mouseEvent) {
+    if(mouseEvent.pageX || mouseEvent.pageY == 0){
+        mouse.x = mouseEvent.pageX - this.offsetLeft;
+        mouse.y = mouseEvent.pageY - this.offsetTop;
+    }else if(mouseEvent.offsetX || mouseEvent.offsetY == 0){
+        mouse.x = mouseEvent.offsetX;
+        mouse.y = mouseEvent.offsetY;
     }
-    return mousePressed;
+}
+function checkClicks(){
+    //check if the mouse x if over the buttons
+    if(mouse.x > (canvas.width/2)-75 && mouse.x < ((canvas.width/2)-75)+150){
+        //if the y is at the same pos as the center button
+        if(mouse.y > (canvas.height/2)-25 && mouse.y < ((canvas.height/2)-25)+50){
+            console.log("Clicked center btn");
+            setDifficulty(1);
+        }
+        else if(mouse.y > (canvas.height/2)-125 && mouse.y < ((canvas.height/2)-125)+50){
+            console.log("Clicked top btn");
+            setDifficulty(0);
+        }
+        else if(mouse.y > (canvas.height/2)+75 && mouse.y < ((canvas.height/2)+75)+50){
+            console.log("Clicked bottom btn");
+            setDifficulty(2);
+        }
+    }
+}
+function setDifficulty(level){
+    if(level == 0){
+        speedX = 2;
+        speedY = -2;
+        makeBalls(ballCount);
+        resetBall();
+    }
+    else if(level == 1){
+        speedX = 4;
+        speedY = -4;
+        makeBalls(ballCount);
+        resetBall();
+    }else if(level == 2){
+        ballCount = 2;
+        speedX = 2;
+        speedY = -2;
+        makeBalls(ballCount);
+        resetBall();
+    }
+    difficultySet = true;
 }
 function keyDownHandler(e){
     if(e.keyCode == 38){
@@ -105,11 +133,14 @@ function drawPaddleP2(){
 }
 function drawBall(){
     //teikna bolta
-    ctx.beginPath()
-    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "#0095DD";
-    ctx.fill();
-    ctx.closePath();
+    for(let i = 0; i < ballCount; i++){
+        ctx.beginPath()
+        ctx.arc(balls[i].x, balls[i].y, ballRadius, 0, Math.PI*2);
+        ctx.fillStyle = "#0095DD";
+        ctx.fill();
+        ctx.closePath();
+    }
+    
 }
 function movePaddles(){
     if(p1.downPressed && p1.paddleY < canvas.height-paddleHeight) {
@@ -127,28 +158,32 @@ function movePaddles(){
     }
 }
 function resetBall(){
-    randPos = Math.floor(Math.random() * 500);
-    x = canvas.width/2;
-    y = canvas.height-randPos;
+    for(let i = 0; i < ballCount; i++){
+        randPos = Math.floor(Math.random() * 500);
+        balls[i].x = canvas.width/2;
+        balls[i].y = canvas.height-randPos;
+    }
 }
 function borderCheck(){
-    if(x + dx > canvas.width-ballRadius) {
-        if(y >= p1.paddleY && y <= p1.paddleY+paddleHeight){
-            dx = -dx;
-        }else if(y < p1.paddleY || y > p1.paddleY+paddleHeight){
-            p2.score += 1;
-            resetBall();
+    for(let i = 0; i < ballCount; i++){
+        if(x + balls[i].dx > canvas.width-ballRadius) {
+            if(y >= p1.paddleY && y <= p1.paddleY+paddleHeight){
+                balls[i].dx = -balls[i].dx;
+            }else if(y < p1.paddleY || y > p1.paddleY+paddleHeight){
+                p2.score += 1;
+                resetBall();
+            }
         }
-    }
-    else if(x + dx < ballRadius){
-        if(y >= p2.paddleY && y <= p2.paddleY+paddleHeight){
-            dx = -dx;
-        }else if(y < p2.paddleY || y > p2.paddleY+paddleHeight){
-            p1.score += 1;
-            resetBall();
+        else if(x + balls[i].dx < ballRadius){
+            if(y >= p2.paddleY && y <= p2.paddleY+paddleHeight){
+                balls[i].dx = -balls[i].dx;
+            }else if(y < p2.paddleY || y > p2.paddleY+paddleHeight){
+                p1.score += 1;
+                resetBall();
+            }
         }
+        if(y + balls[i].dy > canvas.height-ballRadius || y + balls[i].dy < ballRadius) {balls[i].dy = -balls[i].dy;}
     }
-    if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {dy = -dy;}
 }
 function drawScore() {
     ctx.font = "16px Arial";
@@ -157,9 +192,17 @@ function drawScore() {
     ctx.fillText(" P2 Score: "+p2.score, 700, 20);
 }
 function checkWin(){
-    if(p1.score == 5 || p2.score == 5 && speedChanged == false){
-        dx *= 2;
-        dy *= 2;
+    if(p1.score == 5 && speedChanged == false){
+        for(let i = 0; i < ballCount; i++){
+            balls[i].dx *= 2;
+            balls[i].dy *= 2;
+        }
+        speedChanged = true;
+    }else if(p2.score == 5 && speedChanged == false){
+        for(let i = 0; i < ballCount; i++){
+            balls[i].dx *= 2;
+            balls[i].dy *= 2;
+        }
         speedChanged = true;
     }
     else if(p1.score >= 10){
@@ -203,26 +246,44 @@ function drawMenuTitle(){
     ctx.fillStyle = "#0095DD";
     ctx.fillText("CHOSE A GAME MODE", 65, 110);
 }
+function makeBalls(){
+    for(let i = 0; i < ballCount; i++){
+        balls.push({
+            x: canvas.width/2,
+            y: canvas.height-30,
+            dx: speedX,
+            dy: speedY
+        })
+    }
+}
+function moveBalls(){
+    for(let i = 0; i < ballCount; i++){
+        balls[i].x += balls[i].dx;
+        balls[i].y += balls[i].dy;
+    }
+}
 function makeMenu(){
     drawButtons();
     drawTextOnButtons();
     drawMenuTitle();
+    canvas.addEventListener("mousemove", getMousePos);
+    canvas.addEventListener("mouseup", checkClicks);
 }
 function draw(){
     //hreinsa canvasinn
-    //checkWin();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    //drawPaddleP1();
-    //drawPaddleP2();
-    //drawScore();
-    //drawBall();
-    //movePaddles();
-    //x += dx;
-    //y += dy;
-    //borderCheck();
-    makeMenu();
-    checkForClicks();
-    detectLeftMouse();
+    if(!difficultySet){
+        makeMenu();
+    }else{
+        checkWin();
+        drawPaddleP1();
+        drawPaddleP2();
+        drawScore();
+        drawBall();
+        movePaddles();
+        moveBalls();
+        borderCheck();
+    }
 }
 
 setInterval(draw, 10);
