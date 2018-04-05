@@ -166,23 +166,23 @@ function resetBall(){
 }
 function borderCheck(){
     for(let i = 0; i < ballCount; i++){
-        if(x + balls[i].dx > canvas.width-ballRadius) {
-            if(y >= p1.paddleY && y <= p1.paddleY+paddleHeight){
+        if(balls[i].x + balls[i].dx > canvas.width-ballRadius) {
+            if(balls[i].y >= p1.paddleY && balls[i].y <= p1.paddleY+paddleHeight){
                 balls[i].dx = -balls[i].dx;
-            }else if(y < p1.paddleY || y > p1.paddleY+paddleHeight){
+            }else if(balls[i].y < p1.paddleY || balls[i].y > p1.paddleY+paddleHeight){
                 p2.score += 1;
                 resetBall();
             }
         }
-        else if(x + balls[i].dx < ballRadius){
-            if(y >= p2.paddleY && y <= p2.paddleY+paddleHeight){
+        else if(balls[i].x + balls[i].dx < ballRadius){
+            if(balls[i].y >= p2.paddleY && balls[i].y <= p2.paddleY+paddleHeight){
                 balls[i].dx = -balls[i].dx;
-            }else if(y < p2.paddleY || y > p2.paddleY+paddleHeight){
+            }else if(balls[i].y < p2.paddleY || balls[i].y > p2.paddleY+paddleHeight){
                 p1.score += 1;
                 resetBall();
             }
         }
-        if(y + balls[i].dy > canvas.height-ballRadius || y + balls[i].dy < ballRadius) {balls[i].dy = -balls[i].dy;}
+        if(balls[i].y + balls[i].dy > canvas.height-ballRadius || balls[i].y + balls[i].dy < ballRadius) {balls[i].dy = -balls[i].dy;}
     }
 }
 function drawScore() {
