@@ -1,0 +1,20 @@
+
+.event {
+    position: relative;
+    width: 250px;
+    height: 180;
+}
+
+.eventDateName {
+    position: absolute;
+    background: black;
+    color: white;
+    padding: 4 10;
+    width: 180;
+    text-align: center;
+    margin: 150 0;
+}
+
+.eventImage {
+    position: absolute;
+}
