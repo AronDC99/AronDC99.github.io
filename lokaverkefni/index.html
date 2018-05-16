@@ -1,15 +1,519 @@
-<html>
-    <head>
-        <title>Concerts in Iceland</title>
-        <meta charset="utf-8">
-        <link href="css/style.css" rel="stylesheet" type="text/css">
-    </head>
-    <body>
-        <div class="event">
-            <h3 class="eventDateName">Vínartónleikar 2015</h3>
-            <img src="http://midi.is/images/medium/15.759.jpg" class="eventImage">
-        </div>
-        <script src="js/jquery.js"></script>
-        <script src="js/main.js"></script>
-    </body>
+
+
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html lang="en" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html lang="en" class="lt-ie9 lt-ie8 ie7"> <![endif]-->
+<!--[if IE 8]> <html lang="en" class="lt-ie9 ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="lt-ie10 ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+
+
+<head>
+
+
+	 <link rel="icon" href="//static.midi.is/img/midi_favicon_16x16.png" />
+	 <link rel="apple-touch-icon" href="//static.midi.is/img/midi_favicon_60x60.png" />
+	 <link rel="apple-touch-icon" sizes="72x72" href="//static.midi.is/img/midi_favicon_76x76.png" />
+	 <link rel="apple-touch-icon" sizes="114x114" href="//static.midi.is/img/midi_favicon_120x120.png" />
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<title>Mi&#240;i.is</title>
+
+	<!--<link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,400,700,900">-->
+	<!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">-->
+
+
+	<!--<script src="//static.midi.is/js/libs/modernizr.custom.82303.js"></script>-->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
+    <script src="js/jquery.js"></script>
+    <script src="js/moment.js"></script>
+	<script src="js/temp.js"></script>
+    
+    <script src="js/main.js"></script>
+	
+   <!--<script src="//ajax.aspnetcdn.com/ajax/mvc/4.0/jquery.validate.unobtrusive.min.js"></script>-->
+      <!--<script src="//static.midi.is/js/libs/messages_is.js"></script>-->
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+    <script type="text/javascript">
+        var contentUrl = '/Content';
+        var baseUrl = '/';
+
+        function setMissingImg(divZoom, missingPath) {
+            var div = $('#' + divZoom);
+            div.attr('style', "background-image: url('" + missingPath + "')");
+        };
+    </script>
+
+    
+    <link href="css/temp.css" rel="stylesheet"/>
+
+    
+
+		<!--<script type="text/javascript">
+
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-150762-1']);
+			_gaq.push(['_trackPageview']);
+
+			(function () {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+
+		</script>-->
+		
+    <meta name="description" content="Midi.is annast mi&#240;as&#246;lu &#225; mannfagna&#240;i og vi&#240;bur&#240;i svo sem &#225; leiks&#253;ningar, t&#243;nleika, kvikmyndas&#253;ningar, &#237;&#254;r&#243;ttaleiki og fleira.">
+    <meta property="og:title" content="Mi&#240;i.is" />
+    <meta property="og:site_name" content="Miði.is" />
+    <meta property="og:url" content="http://midi.is" />
+    <meta property="og:description" content="Midi.is annast mi&#240;as&#246;lu &#225; mannfagna&#240;i og vi&#240;bur&#240;i svo sem &#225; leiks&#253;ningar, t&#243;nleika, kvikmyndas&#253;ningar, &#237;&#254;r&#243;ttaleiki og fleira." />
+    <meta property="og:image" content="http://midi.is/Content/img/logo.png" />
+    <link rel="canonical" href="http://midi.is" />
+
+
+	</head>
+	<body onload="loadDataStuff();">
+		
+	   <div class="site-wrap">
+		  <div class="page-wrap">
+			 <header class="site-header">
+				<div class="limit">
+				   <a href="http://midi.is/forsida" class="site-logo">
+					  <img src="//static.midi.is/img/logo.png" alt="midi.is" />
+				   </a>
+				   <div class="functions">
+					  <div class="button-group">
+						 
+<a class="button simple" href="/Home/ChangeLanguage?lang=en-GB">English</a>                     
+                  </div>
+               </div>
+
+               <nav class="main-navigation" id="dropdown-navigation">
+                  <ul>
+                     <li class=selected>
+                         <a class="selected" href="/forsida">Allt</a>
+                     </li>
+                     <li >
+                        <a href="/tonleikar">T&#243;nleikar</a>
+                        <div class="menu">
+                           <ul>
+                              <li><a href="/tonleikar">Yfirlitss&#237;&#240;a<i class="icon-arrow-right"></i></a></li>
+                              <li><a href="/tonleikar-eftirdagsetningu">Eftir dagsetningu<i class="icon-arrow-right"></i></a></li>
+                              
+                              <li><a href="/tonleikar-brattisolu">Br&#225;tt &#237; s&#246;lu<i class="icon-arrow-right"></i></a></li>
+                           </ul>
+                        </div>
+                     </li>
+                     <li >
+                        <a href="/bio">Kvikmyndir</a>
+                        <div class="menu">
+                           <ul>
+                              <li><a href="/bio">Yfirlitss&#237;&#240;a<i class="icon-arrow-right"></i></a></li>
+                              <li><a href="/kvikmyndasyningar">Eftir kvikmyndah&#250;sum<i class="icon-arrow-right"></i></a></li>
+                              <li><a href="/vaentanlegt">V&#230;ntanlegar myndir<i class="icon-arrow-right"></i></a></li>
+                           </ul>
+                           <div class="tags">
+                              <p class="label">Eftir merkingum</p>
+                              <div class="grid gutter">
+                                 <div class="col s1of2">
+                                    <ul>
+                                       <li><a href="/bio">Allt</a></li>
+                                       <li><a href="/bio?t=Spennumynd">Spennumynd</a></li>
+                                       <li><a href="/bio?t=Gl&#230;pamynd">Gl&#230;pamynd</a></li>
+                                       <li><a href="/bio?t=Drama">Drama</a></li>
+                                       <li><a href="/bio?t=Gamanmynd">Gamanmynd</a></li>
+                                    </ul>
+                                 </div>
+                                 <div class="col s1of2">
+                                    <ul>
+                                       <li><a href="/bio?t=Teiknimynd">Teiknimynd</a></li>
+                                       <li><a href="/bio?t=&#198;vint&#253;ramynd">&#198;vint&#253;ramynd</a></li>
+                                       <li><a href="/bio?t=R&#243;mant&#237;sk">R&#243;mant&#237;sk</a></li>
+                                       <li><a href="/bio?t=Gr&#237;nmynd">Gr&#237;nmynd</a></li>
+                                       <li><a href="/bio?t=Fj&#246;lskyldumynd">Fj&#246;lskyldumynd</a></li>
+                                    </ul>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+                     <li >
+                        <a href="/leikhus">Leikh&#250;s</a>
+                        <div class="menu">
+                           <ul>
+                              <li><a href="/leikhus">Yfirlitss&#237;&#240;a<i class="icon-arrow-right"></i></a></li>
+                              <li><a href="/leikhus-eftirdagsetningu">Eftir dagsetningu<i class="icon-arrow-right"></i></a></li>
+                              
+                              <li><a href="/leikhus-brattisolu">Br&#225;tt &#237; s&#246;lu<i class="icon-arrow-right"></i></a></li>
+                           </ul>
+                        </div>
+                     </li>
+                     <li >
+                        <a href="/ithrottir">&#205;&#254;r&#243;ttir</a>
+                        <div class="menu">
+                           <ul>
+                              <li><a href="/ithrottir">Yfirlitss&#237;&#240;a<i class="icon-arrow-right"></i></a></li>
+                              <li><a href="/ithrottir-eftirdagsetningu">Eftir dagsetningu<i class="icon-arrow-right"></i></a></li>
+                              
+                              <li><a href="/ithrottir-brattisolu">Br&#225;tt &#237; s&#246;lu<i class="icon-arrow-right"></i></a></li>
+                           </ul>
+                        </div>
+                     </li>
+                     <li >
+                        <a href="/annad">Anna&#240;</a>
+                        <div class="menu">
+                           <ul>
+                              <li><a href="/annad">Yfirlitss&#237;&#240;a<i class="icon-arrow-right"></i></a></li>
+                              <li><a href="/annad-eftirdagsetningu">Eftir dagsetningu<i class="icon-arrow-right"></i></a></li>
+                              
+                              <li><a href="/annad-brattisolu">Br&#225;tt &#237; s&#246;lu<i class="icon-arrow-right"></i></a></li>
+                           </ul>
+                        </div>
+                     </li>
+
+                     <li><a href="/gjafakort">Gjafakort</a></li>
+                  </ul>
+               </nav>
+
+               <a href="#sidebar" style="float: left;" class="sidenav-toggle"><i class="icon-menu"></i></a>
+
+               <a href="#" class="search-trigger"><i class="icon-search"></i><span>Vi&#240;bur&#240;aleit</span></a>
+               
+               
+            </div>
+         </header>
+
+         <div class="segment search" id="search-segment">
+            <div class="limit">
+<form action="/leit" method="post">                  <div class="form events">
+                     <div class="text">
+                        <label for="">Leitaror&#240;</label>
+
+                        <input id="searchText" name="searchText" placeholder="Sláðu inn leitarorð, t.d. &quot;Háskólabíó&quot; til að sýna alla viðburði í Háskólabíó" type="text" value="" />
+                        <input type="hidden" name="firstPage" id="firstPage" value="true" />
+                     </div>
+                     <div class="selectors">
+                        <div class="drp1">
+                           <label for="drp1">Tegund</label>
+                           <select class="dropdown" name="drp1" id="drp1">
+                              <option value="0">Allir vi&#240;bur&#240;ir</option>
+                              <option value="1">T&#243;nleikar</option>
+                              <option value="3">Leikh&#250;s</option>
+                              <option value="4">Kvikmyndir</option>
+                              <option value="6">&#205;&#254;r&#243;ttir</option>
+                              <option value="7">Anna&#240;</option>
+                           </select>
+                        </div>
+                        <div class="drp2">
+                           <label for="drp2">T&#237;mabil</label>
+                           <select name="drp2" id="drp2">
+                              <option value="0">Veldu t&#237;mabil</option>
+                              <option value="1">N&#230;sta vika</option>
+                              <option value="2">N&#230;stu 2 vikur</option>
+                              <option value="3">N&#230;sti m&#225;nu&#240;ur</option>
+                           </select>
+                        </div>
+                        <div class="submit">
+                           <input type="submit" value="Leit" class="button black fill" />
+                           
+                        </div>
+                     </div>
+                  </div>
+</form>            </div>
+         </div>
+
+         <main class="site-content" role="main">
+            
+
+
+
+
+
+
+
+
+<div class="segment gray">
+   <div class="limit">
+      <section class="category">
+         <h1 class="hidden">Vi&#240;bur&#240;ir</h1>
+
+         <ul id="mainFeatures" class="list features">
+
+         </ul>
+
+         <div class="text-center">
+            <button id="get-main" class="button pill" data-url="/Home/LoadMoreEvents"><i class="icon-arrow-down"></i> Fleiri vi&#240;bur&#240;ir</button>
+
+         </div>
+      </section>
+   </div>
+</div>
+
+
+
+
+         </main>
+
+
+
+        <!-- Front Page - Bottom Banner [async] -->
+        <!--<script type="text/javascript">if (!window.AdButler) { (function () { var s = document.createElement("script"); s.async = true; s.type = "text/javascript"; s.src = 'https://servedbyadbutler.com/app.js'; var n = document.getElementsByTagName("script")[0]; n.parentNode.insertBefore(s, n); }()); }</script>
+        <script type="text/javascript">
+            var AdButler = AdButler || {}; AdButler.ads = AdButler.ads || [];
+            var abkw = window.abkw || 'forsida';
+            var plc179912 = window.plc179912 || 0;
+            document.write('<aside class="advert" style="background-color: inherit !important;"><div class="limit" id="placement_179912_' + plc179912 + '"></div></aside>');
+            AdButler.ads.push({ handler: function (opt) { AdButler.register(166444, 179912, [1200, 200], 'placement_179912_' + opt.place, opt); }, opt: { place: plc179912++, keywords: abkw, domain: 'servedbyadbutler.com' } });
+        </script>-->
+
+
+
+         <footer class="site-footer">
+            
+<div class="limit">
+   <div class="foot-top">
+      <div class="grid gutter reverse collapse600">
+         <div class="col s1of3">
+            <div class="list-title">Hafa samband</div>
+            <div class="contact-info" itemscope itemtype="http://schema.org/Organization">
+               <div class="grid gutter reverse collapse960">
+                  <div class="col s1of2">
+                     <div class="phone"><i class="icon-phone"></i><span itemprop="telephone">540 9800</span></div>
+                     <p class="hours">Opi&#240; alla virka daga &#225; milli 09:00 og 17:00</p>
+                  </div>
+                  <div class="col s1of2">
+                     <p itemprop="name">Miði.is</p>
+                     <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                        <p itemprop="streetAddress">Skaftahlíð 24</p>
+                        <p><span itemprop="postalCode">105</span> <span itemprop="addressLocality">Reykjavík</span></p>
+                        <p>
+                           <a href="mailto:midi@midi.is" itemprop="email">midi(hjá)midi.is</a>
+                        </p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col s2of3">
+
+            <div class="footer-links">
+               <div class="grid gutter collapse600">
+                  <div class="col s1of2">
+                     <div class="list-title">Allt um mi&#240;i.is</div>
+                     <div class="grid gutter collapse960">
+                        <div class="col s1of2">
+                           <ul class="rem960">
+                              <li><a href="/ummidi">Um mi&#240;i.is</a></li>
+                              <li><a href="/TicketDelivery">Afgrei&#240;slusta&#240;ir</a></li>
+                              <li><a href="/hjalp">Hj&#225;lp</a></li>
+                              <li><a href="/hafasamband">Hafa samband</a></li>
+                           </ul>
+                        </div>
+                        <div class="col s1of2">
+                           <ul>
+                              <li><a href="/medferdupplysinga">Pers&#243;nuuppl&#253;singar</a></li>
+                              <li><a href="/skilmalar">Skilm&#225;lar mi&#240;akaupa</a></li>
+                              <li><a href="/auglysingar">Augl&#253;singar</a></li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col s1of2">
+                     
+                  </div>
+               </div>
+            </div>
+
+         </div>
+      </div>
+   </div>
+
+
+   <div class="foot-bottom">
+      <div class="grid gutter collapse840">
+         <div class="col s1of2">
+            <div class="copyright">
+               <small>Allt myndefni &#225; vefnum er nota&#240; me&#240; leyfi fr&#225; r&#233;tth&#246;fum.</small>
+            </div>
+         </div>
+         <div class="col s1of2">
+            <div class="copyright info">
+               <small>&#169; 2014 Mi&#240;i.is ehf - 0A00001B</small>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+         </footer>
+
+         <div class="modal login" id="Login">
+            <p>login!</p>
+         </div>
+
+      </div>
+
+      <aside class="sidebar" id="sidebar">
+         <nav class="sidenav">
+            <div class="mobile-navigation">
+               <header class="header">
+                  <h1>Mobile navigation</h1>
+                  <h2>Fors&#237;&#240;a</h2>
+               </header>
+               <ul class="main">
+                  <li><a href="/">Allt</a></li>
+                  <li><a href="#music-slide">T&#243;nleikar</a></li>
+                  <li><a href="#theater-slide">Leikh&#250;s</a></li>
+                  <li><a href="#movies-slide">Kvikmyndir</a></li>
+                  <li><a href="#sports-slide">&#205;&#254;r&#243;ttir</a></li>
+                  <li><a href="#other-slide">Anna&#240;</a></li>
+                  <li><a href="/gjafakort">Gjafakort</a></li>
+               </ul>
+               <ul class="secondary">
+                  
+                  
+                  <li><a href="/hjalp">Hj&#225;lp</a></li>
+                  <li><a href="/ummidi">Allt um mi&#240;i.is</a></li>
+                  <li><a href="/hafasamband">Hafa samband</a></li>
+
+                     <li>
+                        <a href="/Home/ChangeLanguage?lang=en-GB">English</a>
+                     </li>
+               </ul>
+            </div>
+
+            <div id="music-slide" class="slide music mobile-navigation">
+               <div class="header">
+                  <h2>T&#243;nleikar</h2>
+               </div>
+               <a href="#" class="back close-slide">Til baka<i class="icon-arrow-right"></i></a>
+               <ul>
+                  <li><a href="/tonleikar">Yfirlitss&#237;&#240;a</a></li>
+                  <li><a href="/tonleikar-eftirdagsetningu">Eftir dagsetningu</a></li>
+                  
+                  <li><a href="/tonleikar-brattisolu">Br&#225;tt &#237; s&#246;lu</a></li>
+               </ul>
+            </div>
+
+            <div id="theater-slide" class="slide theater mobile-navigation">
+               <div class="header">
+                  <h2>Leikh&#250;s</h2>
+               </div>
+               <a href="#" class="back close-slide">Til baka<i class="icon-arrow-right"></i></a>
+               <ul>
+                  <li><a href="/leikhus">Yfirlitss&#237;&#240;a</a></li>
+                  <li><a href="/leikhus-eftirdagsetningu">Eftir dagsetningu</a></li>
+                  
+                  <li><a href="/leikhus-brattisolu">Br&#225;tt &#237; s&#246;lu</a></li>
+               </ul>
+            </div>
+
+            <div id="movies-slide" class="slide movies mobile-navigation">
+               <div class="header">
+                  <h2>Kvikmyndir</h2>
+               </div>
+               <a href="#" class="back close-slide">Til baka<i class="icon-arrow-right"></i></a>
+               <ul>
+                  <li><a href="/bio">Yfirlitss&#237;&#240;a</a></li>
+                  <li><a href="/kvikmyndasyningar">Eftir kvikmyndah&#250;sum</a></li>
+                  
+                  <li><a href="/vaentanlegt">V&#230;ntanlegar myndir</a></li>
+               </ul>
+            </div>
+
+            <div id="sports-slide" class="slide sports mobile-navigation">
+               <div class="header">
+                  <h2>&#205;&#254;r&#243;ttir</h2>
+               </div>
+               <a href="#" class="back close-slide">Til baka<i class="icon-arrow-right"></i></a>
+               <ul>
+                  <li><a href="/ithrottir">Yfirlitss&#237;&#240;a</a></li>
+                  <li><a href="/ithrottir-eftirdagsetningu">Eftir dagsetningu</a></li>
+                  
+                  <li><a href="/ithrottir-brattisolu">Br&#225;tt &#237; s&#246;lu</a></li>
+               </ul>
+            </div>
+
+            <div id="other-slide" class="slide other mobile-navigation">
+               <div class="header">
+                  <h2>Anna&#240;</h2>
+               </div>
+               <a href="#" class="back close-slide">Til baka<i class="icon-arrow-right"></i></a>F
+               <ul>
+                  <li><a href="/annad">Yfirlitss&#237;&#240;a</a></li>
+                  <li><a href="/annad-eftirdagsetningu">Eftir dagsetningu</a></li>
+                  
+                  <li><a href="/annad-brattisolu">Br&#225;tt &#237; s&#246;lu</a></li>
+               </ul>
+            </div>
+
+            
+            <div id="giftcard-slide" class="slide other mobile-navigation">
+               <div class="header">
+                  <h2>Gjafakort</h2>
+               </div>
+               <a href="#" class="back close-slide">Til baka<i class="icon-arrow-right"></i></a>
+               <ul>
+                  <li><a href="/Giftward">Gjafakort</a></li>
+               </ul>
+            </div>
+
+         </nav>
+
+      </aside>
+
+   </div>
+   
+
+   <script>
+       $('#advertClick').click(function (event) {
+
+           $.ajax({
+               url: $('#advertClick').data('url'),
+               success: function (res) {
+
+               }
+           });
+
+       });
+   </script>
+
+
+   <script src="js/midiJs.js"></script>
+
+   
+
+	<!-- Virk vefmaeling byrjar. Vefur: http://midi.is -->
+<!-- Only for use on Secure (SSL) websites -->
+<script language="javascript" type="text/javascript"><!--
+       var p_run_js=0;
+//--></script>
+<script language="javascript1.1" type="text/javascript"><!--
+        var p_run_js=1;
+//--></script>
+<script language="javascript" type="text/javascript"><!--
+//<![CDATA[
+        var service_id = "15854";
+    var portion = "null";
+        var page = "main";
+        if(!p_run_js) {
+                document.write('<img width="1" height="1" src="https://secure.teljari.is/potency/potency.php?o='+service_id+';i='+portion+';p='+page+';j=1.0" alt="" border="0" />');
+        }
+//]]>
+//--></script>
+<script language="javascript1.1" type="text/javascript" src="https://secure.teljari.is/potency/js/potency.js"></script>
+<noscript>
+<img width="1" height="1" src="https://secure.teljari.is/potency/potency.php?o=15854;i=null;p=main" alt="" border="0" />
+</noscript>
+<!-- Virk vefmaeling endar -->
+
+</body>
 </html>
